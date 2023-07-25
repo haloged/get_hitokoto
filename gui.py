@@ -8,6 +8,26 @@ import json
 import openai
 import os
 
+print('''
+   __ __     __                 __
+  / // /__ _/ /__  ___ ____ ___/ /
+ / _  / _ `/ / _ \/ _ `/ -_) _  / 
+/_//_/\_,_/_/\___/\_, /\__/\_,_/  
+                 /___/            
+''')
+
+def jcgx():
+    vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
+    vertion_jx=json.loads(vertion.text)
+    bbh=vertion_jx["bbh"]
+    if bbh=="1.1.0":
+        tkinter.messagebox.showinfo("提示","无更新")
+    else:
+        tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
+        if tip_vertion==True:
+            os.system("start https://github.com/haloged/get_hitokoto/releases")
+def ope_github():
+    os.system("start https://github.com/haloged/get_hitokoto/")
 def ope():
     os.system("log.txt")
 def about():
@@ -58,7 +78,7 @@ def run_1():
     elif yuan==3:
         with open("log.txt","a") as f:
             f.write("获取源：ChatGPT\n抓取次数："+str(run_num)+"\n\n")
-        gpt_api_token=tkinter.simpledialog.askstring("请输入你的OPENAI API KEY")
+        gpt_api_token=tkinter.simpledialog.askstring(title="请输入你的你的KEY",prompt="请输入你的OPENAI API KEY")
         openai.api_key = os.getenv(gpt_api_token)
         response = openai.Completion.create(model="text-davinci-003", prompt="请生成"+run_num+"个关于励志的句子", temperature=0, max_tokens=1000)
         print(response)
@@ -69,7 +89,7 @@ def run_1():
         tkinter.messagebox.showinfo("提示","获取成功！")
 
 root=tk.Tk()
-root.title("一言生成器v1.0.0 By Haloged")
+root.title("一言生成器v1.1.0 By Haloged")
 root.geometry("500x300")
 
 mainmenu = tk.Menu(root)
@@ -80,7 +100,9 @@ menuFile.add_separator()  # 分割线
 menuFile.add_command(label="退出",command=root.destroy)
 
 menuEdit = tk.Menu(mainmenu)  # 菜单分组 menuEdit
-mainmenu.add_cascade(label="关于",menu=menuEdit)
+mainmenu.add_cascade(label="更多",menu=menuEdit)
+menuEdit.add_command(label="Github仓库",command=ope_github)
+menuEdit.add_command(label="检查更新",command=jcgx)
 menuEdit.add_command(label="关于",command=about)
 root.config(menu=mainmenu)
 
