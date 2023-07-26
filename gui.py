@@ -15,12 +15,13 @@ print('''
 /_//_/\_,_/_/\___/\_, /\__/\_,_/  
                  /___/            
 ''')
-
+def ope_config():
+    tkinter.messagebox.showinfo("提示","正在开发中，预计1.5.0版本上线！")
 def jcgx():
     vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
     vertion_jx=json.loads(vertion.text)
     bbh=vertion_jx["bbh"]
-    if bbh=="1.1.0":
+    if bbh=="1.1.1":
         tkinter.messagebox.showinfo("提示","无更新")
     else:
         tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
@@ -31,7 +32,7 @@ def ope_github():
 def ope():
     os.system("log.txt")
 def about():
-    tkinter.messagebox.showinfo("关于软件","作者：haloged\nGithub仓库：https://github.com/haloged/get_hitokoto")
+    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.1.1\nGithub仓库：https://github.com/haloged/get_hitokoto")
 def run_1():
     yuan=var.get()
     run_num=tkinter.simpledialog.askinteger(title="请输入运行次数",prompt = "运行次数：")
@@ -89,12 +90,13 @@ def run_1():
         tkinter.messagebox.showinfo("提示","获取成功！")
 
 root=tk.Tk()
-root.title("一言生成器v1.1.0 By Haloged")
+root.title("一言生成器v1.1.1 By Haloged")
 root.geometry("500x300")
 
 mainmenu = tk.Menu(root)
 menuFile = tk.Menu(mainmenu)  # 菜单分组 menuFile
 mainmenu.add_cascade(label="文件",menu=menuFile)
+menuFile.add_command(label="打开配置文件",command=ope_config)
 menuFile.add_command(label="打开一言保存文件",command=ope)
 menuFile.add_separator()  # 分割线
 menuFile.add_command(label="退出",command=root.destroy)
