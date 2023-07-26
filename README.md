@@ -8,7 +8,15 @@
 ![image](https://github.com/haloged/get_hitokoto/assets/101408211/6995edc6-7a72-446e-95d8-98957f747068)
 下载完成后解压双击`一言生成器.exe`即可使用
 ## MacOS
-MacOS版本需要下载Python环境
+~~MacOS版本需要下载Python环境~~
+
+自1.1.1版本起，MacOS只需下载安装版本即可
+### 安装版本
+点击[此处](https://github.com/haloged/get_hitokoto/releases)找到`Mac-os.zip`并下载
+![image](https://github.com/haloged/get_hitokoto/assets/101408211/ccab7fa8-7b2c-4814-bd11-aabd4a358eca)
+下载完成后解压双击`一言生成器.pkg`安装即可使用。
+### 编译版本
+编译版本需要下载Python环境。
 
 **如果您是第一次使用，您需执行4步，如不是第一次使用，只需执行第四步即可。**
 1. 点击[这里](https://www.python.org/ftp/python/3.8.3/python-3.8.3-macosx10.9.pkg)下载并点击安装
