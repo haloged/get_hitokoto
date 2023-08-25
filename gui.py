@@ -15,13 +15,45 @@ print('''
 /_//_/\_,_/_/\___/\_, /\__/\_,_/  
                  /___/            
 ''')
+def zdy():
+    zdy_url=tkinter.simpledialog.askstring(title="请输入api地址",prompt = "地址")
+    zdy_j=tkinter.simpledialog.askstring(title="请输入一言文字所在的json路径",prompt="路径（直接输出输入zjscc）：")
+    zdy_cs=tkinter.simpledialog.askinteger(title="请输入运行次数",prompt="次数：")
+    if zdy_j=="zjscc":
+        with open("log.txt","a") as f:
+            f.write("获取源：自定义源"+"\n"+"api地址："+zdy_url+"\n抓取次数："+str(zdy_cs)+"\n\n")
+        for i in range(zdy_cs):
+            zdy_get=requests.get(zdy_url)
+            print(zdy_get.text)
+            with open("log.txt","a") as f:
+                f.write(zdy_get.text+"\n")
+            time.sleep(2)
+        with open("log.txt","a") as f:
+            f.write("\n\n")
+        tkinter.messagebox.showinfo("提示","抓取成功！")
+    else:
+        with open("log.txt","a") as f:
+            f.write("获取源：自定义源"+"\napi地址："+zdy_url+"\n抓取次数："+str(zdy_cs)+"\n\n")
+        for i in range(zdy_cs):
+            zdy_jx={zdy_j:"1"}
+            zdy_get=requests.get(zdy_url)
+            zdy_jx_get=json.loads(zdy_get.text)
+            print(zdy_jx_get[zdy_j])
+            with open("log.txt","a") as f:
+                f.write(zdy_jx_get[zdy_j]+"\n")
+            time.sleep(2)
+        with open("log.txt","a") as f:
+            f.write("\n\n")
+        tkinter.messagebox.showinfo("提示","抓取成功！")
+    
+
 def ope_config():
     tkinter.messagebox.showinfo("提示","正在开发中，预计1.5.0版本上线！")
 def jcgx():
     vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
     vertion_jx=json.loads(vertion.text)
     bbh=vertion_jx["bbh"]
-    if bbh=="1.1.1":
+    if bbh=="1.2.0":
         tkinter.messagebox.showinfo("提示","无更新")
     else:
         tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
@@ -90,7 +122,7 @@ def run_1():
         tkinter.messagebox.showinfo("提示","获取成功！")
 
 root=tk.Tk()
-root.title("一言生成器v1.1.1 By Haloged")
+root.title("一言生成器v1.2.0 By Haloged")
 root.geometry("500x300")
 
 mainmenu = tk.Menu(root)
@@ -98,6 +130,7 @@ menuFile = tk.Menu(mainmenu)  # 菜单分组 menuFile
 mainmenu.add_cascade(label="文件",menu=menuFile)
 menuFile.add_command(label="打开配置文件",command=ope_config)
 menuFile.add_command(label="打开一言保存文件",command=ope)
+menuFile.add_command(label="自定义源",command=zdy)
 menuFile.add_separator()  # 分割线
 menuFile.add_command(label="退出",command=root.destroy)
 
