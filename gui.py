@@ -12,7 +12,7 @@ print('''
    __ __     __                 __
   / // /__ _/ /__  ___ ____ ___/ /
  / _  / _ `/ / _ \/ _ `/ -_) _  / 
-/_//_/\_,_/_/\___/\_, /\__/\_,_/  
+/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.2.1
                  /___/            
 ''')
 def zdy():
@@ -24,9 +24,9 @@ def zdy():
             f.write("获取源：自定义源"+"\n"+"api地址："+zdy_url+"\n抓取次数："+str(zdy_cs)+"\n\n")
         for i in range(zdy_cs):
             zdy_get=requests.get(zdy_url)
-            print(zdy_get.text)
+            print(zdy_get.text())
             with open("log.txt","a") as f:
-                f.write(zdy_get.text+"\n")
+                f.write(zdy_get.text()+"\n")
             time.sleep(2)
         with open("log.txt","a") as f:
             f.write("\n\n")
@@ -53,7 +53,7 @@ def jcgx():
     vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
     vertion_jx=json.loads(vertion.text)
     bbh=vertion_jx["bbh"]
-    if bbh=="1.2.0":
+    if bbh=="1.2.1":
         tkinter.messagebox.showinfo("提示","无更新")
     else:
         tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
@@ -64,7 +64,7 @@ def ope_github():
 def ope():
     os.system("log.txt")
 def about():
-    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.1.1\nGithub仓库：https://github.com/haloged/get_hitokoto")
+    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.2.1\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
 def run_1():
     yuan=var.get()
     run_num=tkinter.simpledialog.askinteger(title="请输入运行次数",prompt = "运行次数：")
@@ -122,7 +122,7 @@ def run_1():
         tkinter.messagebox.showinfo("提示","获取成功！")
 
 root=tk.Tk()
-root.title("一言生成器v1.2.0 By Haloged")
+root.title("一言生成器v1.2.1 By Haloged")
 root.geometry("500x300")
 
 mainmenu = tk.Menu(root)
