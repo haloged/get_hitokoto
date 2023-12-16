@@ -12,9 +12,17 @@ print('''
    __ __     __                 __
   / // /__ _/ /__  ___ ____ ___/ /
  / _  / _ `/ / _ \/ _ `/ -_) _  / 
-/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.2.1
+/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.2.2
                  /___/            
 ''')
+
+def clean_hitokoto():
+    os.system("del log.txt")
+    tkinter.messagebox.showinfo("提示","删除成功！")
+
+def ope_help_doc():
+    os.system("start https://www.yuque.com/haloged/rwmrh5")
+
 def zdy():
     zdy_url=tkinter.simpledialog.askstring(title="请输入api地址",prompt = "地址")
     zdy_j=tkinter.simpledialog.askstring(title="请输入一言文字所在的json路径",prompt="路径（直接输出输入zjscc）：")
@@ -53,7 +61,7 @@ def jcgx():
     vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
     vertion_jx=json.loads(vertion.text)
     bbh=vertion_jx["bbh"]
-    if bbh=="1.2.1":
+    if bbh=="1.2.2":
         tkinter.messagebox.showinfo("提示","无更新")
     else:
         tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
@@ -64,7 +72,7 @@ def ope_github():
 def ope():
     os.system("log.txt")
 def about():
-    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.2.1\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
+    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.2.2\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
 def run_1():
     yuan=var.get()
     run_num=tkinter.simpledialog.askinteger(title="请输入运行次数",prompt = "运行次数：")
@@ -122,7 +130,7 @@ def run_1():
         tkinter.messagebox.showinfo("提示","获取成功！")
 
 root=tk.Tk()
-root.title("一言生成器v1.2.1 By Haloged")
+root.title("一言生成器v1.2.2 By Haloged")
 root.geometry("500x300")
 
 mainmenu = tk.Menu(root)
@@ -130,12 +138,14 @@ menuFile = tk.Menu(mainmenu)  # 菜单分组 menuFile
 mainmenu.add_cascade(label="文件",menu=menuFile)
 menuFile.add_command(label="打开配置文件",command=ope_config)
 menuFile.add_command(label="打开一言保存文件",command=ope)
+menuFile.add_command(label="清空一言保存文件",command=clean_hitokoto)
 menuFile.add_command(label="自定义源",command=zdy)
 menuFile.add_separator()  # 分割线
 menuFile.add_command(label="退出",command=root.destroy)
 
 menuEdit = tk.Menu(mainmenu)  # 菜单分组 menuEdit
 mainmenu.add_cascade(label="更多",menu=menuEdit)
+menuEdit.add_command(label="帮助文档",command=ope_help_doc)
 menuEdit.add_command(label="Github仓库",command=ope_github)
 menuEdit.add_command(label="检查更新",command=jcgx)
 menuEdit.add_command(label="关于",command=about)
