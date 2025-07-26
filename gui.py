@@ -12,7 +12,7 @@ print('''
    __ __     __                 __
   / // /__ _/ /__  ___ ____ ___/ /
  / _  / _ `/ / _ \/ _ `/ -_) _  / 
-/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.2.3
+/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.2.4
                  /___/            
 ''')
 
@@ -21,7 +21,8 @@ def clean_hitokoto():
     tkinter.messagebox.showinfo("提示","删除成功！")
 
 def ope_help_doc():
-    os.system("start https://www.yuque.com/haloged/rwmrh5")
+    tkinter.messagebox.showinfo("提示","由于不可抗力因素，文档暂时下线，上线时间待定，感谢理解。")
+    #os.system("start https://www.yuque.com/haloged/rwmrh5")
 
 def zdy():
     zdy_url=tkinter.simpledialog.askstring(title="请输入api地址",prompt = "地址")
@@ -57,25 +58,32 @@ def zdy():
 
 def ope_config():
     tkinter.messagebox.showinfo("提示","正在开发中，预计1.5.0版本上线！")
+
 def jcgx():
     vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
     vertion_jx=json.loads(vertion.text)
     bbh=vertion_jx["bbh"]
-    if bbh=="1.2.3":
+    print("当前最新版本："+bbh)
+    if bbh=="1.2.4":
         tkinter.messagebox.showinfo("提示","无更新")
     else:
         tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
         if tip_vertion==True:
             os.system("start https://github.com/haloged/get_hitokoto/releases")
+
 def ope_github():
     os.system("start https://github.com/haloged/get_hitokoto/")
+
 def ope():
     os.system("log.txt")
+
 def about():
-    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.2.3\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
+    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.2.4\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
+
 def run_1():
     yuan=var.get()
     run_num=tkinter.simpledialog.askinteger(title="请输入运行次数",prompt = "运行次数：")
+
     if yuan==0:
         with open("log.txt","a") as f:
             f.write("获取源：hitokoto.cn\n抓取次数："+str(run_num)+"\n\n")
@@ -90,6 +98,7 @@ def run_1():
         with open("log.txt","a") as f:
             f.write("\n\n")
         tkinter.messagebox.showinfo("提示","抓取成功！")
+
     elif yuan==1:
         with open("log.txt","a") as f:
             f.write("获取源：光环API\n抓取次数："+str(run_num)+"\n\n")
@@ -103,6 +112,7 @@ def run_1():
         with open("log.txt","a") as f:
             f.write("\n\n")
         tkinter.messagebox.showinfo("提示","获取成功！")
+
     elif yuan==2:
         with open("log.txt","a") as f:
             f.write("获取源：韩小韩API\n抓取次数："+str(run_num)+"\n\n")
@@ -115,6 +125,7 @@ def run_1():
         with open("log.txt","a") as f:
             f.write("\n\n")
         tkinter.messagebox.showinfo("提示","获取成功！")
+
     elif yuan==3:
         with open("log.txt","a") as f:
             f.write("获取源：ChatGPT\n抓取次数："+str(run_num)+"\n\n")
@@ -128,8 +139,29 @@ def run_1():
             f.write("\n\n")
         tkinter.messagebox.showinfo("提示","获取成功！")
 
+    elif yuan==4:
+        with open("log.txt","a") as f:
+            f.write("获取源：DeepSeek\n抓取次数："+str(run_num)+"\n\n")
+        deepseek_api_token=tkinter.simpledialog.askstring(title="请输入你的你的KEY",prompt="请输入你的DeepSeek API KEY")
+        openai.api_key = os.getenv(deepseek_api_token)
+        client = openai.OpenAI(api_key=os.getenv(deepseek_api_token), base_url="https://api.deepseek.com")
+        response = client.chat.completions.create(
+            model="deepseek-chat",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant"},
+                {"role": "user", "content": "请生成"+run_num+"个关于励志的句子，直接给出"},
+            ],
+            stream=False
+        )
+        print(response.choices[0].message.content)
+        with open("log.txt","a") as f:
+            f.write(response.choices[0].message.content)
+        with open("log.txt","a") as f:
+            f.write("\n\n")
+        tkinter.messagebox.showinfo("提示","获取成功！")
+
 root=tk.Tk()
-root.title("一言生成器v1.2.3 By Haloged")
+root.title("一言生成器v1.2.4 By Haloged")
 root.geometry("500x300")
 
 mainmenu = tk.Menu(root)
@@ -177,5 +209,8 @@ rd3.pack()
 
 rd4 = tk.Radiobutton(root,text="ChatGPT(需自行提供API KEY)",variable=var,value=3)
 rd4.pack()
+
+rd5 = tk.Radiobutton(root,text="DeepSeek(需自行提供API KEY)",variable=var,value=4)
+rd5.pack()
 
 root.mainloop()
