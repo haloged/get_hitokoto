@@ -12,7 +12,7 @@ print('''
    __ __     __                 __
   / // /__ _/ /__  ___ ____ ___/ /
  / _  / _ `/ / _ \/ _ `/ -_) _  / 
-/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.2.2
+/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.2.3
                  /___/            
 ''')
 
@@ -61,7 +61,7 @@ def jcgx():
     vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
     vertion_jx=json.loads(vertion.text)
     bbh=vertion_jx["bbh"]
-    if bbh=="1.2.2":
+    if bbh=="1.2.3":
         tkinter.messagebox.showinfo("提示","无更新")
     else:
         tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
@@ -72,7 +72,7 @@ def ope_github():
 def ope():
     os.system("log.txt")
 def about():
-    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.2.2\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
+    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.2.3\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
 def run_1():
     yuan=var.get()
     run_num=tkinter.simpledialog.askinteger(title="请输入运行次数",prompt = "运行次数：")
@@ -92,14 +92,13 @@ def run_1():
         tkinter.messagebox.showinfo("提示","抓取成功！")
     elif yuan==1:
         with open("log.txt","a") as f:
-            f.write("获取源：apiup\n抓取次数："+str(run_num)+"\n\n")
+            f.write("获取源：光环API\n抓取次数："+str(run_num)+"\n\n")
         for i in range(run_num):
-            apiup_jx={"txt":"1"}
-            apiup_get=requests.get("https://apiup.tcxone.eu.org/yiyan.php")
-            apiup_jx=json.loads(apiup_get.text)
-            print(apiup_jx["txt"])
+            haloapi_jx={"txt":"1"}
+            haloapi_get=requests.get("https://api.haloged.eu.org/")
+            print(haloapi_get.text)
             with open("log.txt","a") as f:
-                f.write(apiup_jx["txt"]+"\n")
+                f.write(haloapi_get.text+"\n")
             time.sleep(2)
         with open("log.txt","a") as f:
             f.write("\n\n")
@@ -130,7 +129,7 @@ def run_1():
         tkinter.messagebox.showinfo("提示","获取成功！")
 
 root=tk.Tk()
-root.title("一言生成器v1.2.2 By Haloged")
+root.title("一言生成器v1.2.3 By Haloged")
 root.geometry("500x300")
 
 mainmenu = tk.Menu(root)
@@ -170,7 +169,7 @@ var = tk.IntVar()
 rd1 = tk.Radiobutton(root,text="hitokoto.cn",variable=var,value=0)
 rd1.pack()
 
-rd2 = tk.Radiobutton(root,text="apiup",variable=var,value=1)
+rd2 = tk.Radiobutton(root,text="光环API",variable=var,value=1)
 rd2.pack()
 
 rd3 = tk.Radiobutton(root,text="韩小韩API",variable=var,value=2)
