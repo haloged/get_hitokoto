@@ -107,7 +107,7 @@ def run_1():
         with open("log.txt","a") as f:
             f.write("获取源：韩小韩API\n抓取次数："+str(run_num)+"\n\n")
         for i in range(run_num):
-            vvhan_get=requests.get("https://api.vvhan.com/api/ian")
+            vvhan_get=requests.get("https://api.vvhan.com/api/ian/rand")
             print(vvhan_get.text)
             with open("log.txt","a") as f:
                 f.write(vvhan_get.text+"\n")
