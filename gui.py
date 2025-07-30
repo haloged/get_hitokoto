@@ -213,4 +213,16 @@ rd4.pack()
 rd5 = tk.Radiobutton(root,text="DeepSeek(需自行提供API KEY)",variable=var,value=4)
 rd5.pack()
 
+#开启时自动检查更新
+vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
+vertion_jx=json.loads(vertion.text)
+bbh=vertion_jx["bbh"]
+print("当前最新版本："+bbh)
+if bbh=="1.2.4":
+    print("检查更新成功，目前无更新。")
+else:
+    tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
+    if tip_vertion==True:
+        os.system("start https://github.com/haloged/get_hitokoto/releases")
+
 root.mainloop()
