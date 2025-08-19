@@ -1,4 +1,7 @@
 # 一言生成器
+
+[English](https://github.com/haloged/get_hitokoto/blob/main/README_EN.md)
+
 请点击[此处](https://github.com/haloged/get_hitokoto/releases)下载一言生成器
 
 **温馨提示：本工具免编译版本仅支持Windows系统。**
