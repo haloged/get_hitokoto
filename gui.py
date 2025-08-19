@@ -12,7 +12,7 @@ print('''
    __ __     __                 __
   / // /__ _/ /__  ___ ____ ___/ /
  / _  / _ `/ / _ \/ _ `/ -_) _  / 
-/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.2.4
+/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.2.5
                  /___/            
 ''')
 
@@ -64,7 +64,7 @@ def jcgx():
     vertion_jx=json.loads(vertion.text)
     bbh=vertion_jx["bbh"]
     print("当前最新版本："+bbh)
-    if bbh=="1.2.4":
+    if bbh=="1.2.5":
         tkinter.messagebox.showinfo("提示","无更新")
     else:
         tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
@@ -78,7 +78,7 @@ def ope():
     os.system("log.txt")
 
 def about():
-    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.2.4\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
+    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.2.5\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
 
 def run_1():
     yuan=var.get()
@@ -161,7 +161,7 @@ def run_1():
         tkinter.messagebox.showinfo("提示","获取成功！")
 
 root=tk.Tk()
-root.title("一言生成器v1.2.4 By Haloged")
+root.title("一言生成器v1.2.5 By Haloged")
 root.geometry("500x300")
 
 mainmenu = tk.Menu(root)
@@ -218,7 +218,7 @@ vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secre
 vertion_jx=json.loads(vertion.text)
 bbh=vertion_jx["bbh"]
 print("当前最新版本："+bbh)
-if bbh=="1.2.4":
+if bbh=="1.2.5":
     print("检查更新成功，目前无更新。")
 else:
     tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
