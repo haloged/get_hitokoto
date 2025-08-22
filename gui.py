@@ -7,6 +7,7 @@ import time
 import json
 import openai
 import os
+import yaml
 
 print('''
    __ __     __                 __
@@ -57,7 +58,7 @@ def zdy():
     
 
 def ope_config():
-    tkinter.messagebox.showinfo("提示","正在开发中，预计1.5.0版本上线！")
+    os.system("config.yaml")
 
 def jcgx():
     vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
@@ -160,6 +161,25 @@ def run_1():
             f.write("\n\n")
         tkinter.messagebox.showinfo("提示","获取成功！")
 
+def auto_update():
+    with open('./config.yaml', 'r', encoding='utf-8') as f:
+        result = yaml.load(f.read(), Loader=yaml.FullLoader)
+    update_status=result['Automatically_check_for_updates']
+    print(update_status)
+    if update_status==True:
+        vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
+        vertion_jx=json.loads(vertion.text)
+        bbh=vertion_jx["bbh"]
+        print("当前最新版本："+bbh)
+        if bbh=="1.2.5":
+            print("检查更新成功，目前无更新。")
+        else:
+            tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
+            if tip_vertion==True:
+                os.system("start https://github.com/haloged/get_hitokoto/releases")
+    else:
+        print("用户已关闭自动更新") 
+
 root=tk.Tk()
 root.title("一言生成器v1.2.5 By Haloged")
 root.geometry("500x300")
@@ -213,16 +233,6 @@ rd4.pack()
 rd5 = tk.Radiobutton(root,text="DeepSeek(需自行提供API KEY)",variable=var,value=4)
 rd5.pack()
 
-#开启时自动检查更新
-vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
-vertion_jx=json.loads(vertion.text)
-bbh=vertion_jx["bbh"]
-print("当前最新版本："+bbh)
-if bbh=="1.2.5":
-    print("检查更新成功，目前无更新。")
-else:
-    tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
-    if tip_vertion==True:
-        os.system("start https://github.com/haloged/get_hitokoto/releases")
+auto_update()
 
 root.mainloop()
