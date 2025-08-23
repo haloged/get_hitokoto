@@ -13,7 +13,7 @@ print('''
    __ __     __                 __
   / // /__ _/ /__  ___ ____ ___/ /
  / _  / _ `/ / _ \/ _ `/ -_) _  / 
-/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.2.5
+/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.3.0
                  /___/            
 ''')
 
@@ -22,8 +22,7 @@ def clean_hitokoto():
     tkinter.messagebox.showinfo("提示","删除成功！")
 
 def ope_help_doc():
-    tkinter.messagebox.showinfo("提示","由于不可抗力因素，文档暂时下线，上线时间待定，感谢理解。")
-    #os.system("start https://www.yuque.com/haloged/rwmrh5")
+    os.system("start https://haloged-studio.feishu.cn/wiki/S554wi9cPiQi6yk1zhAcEEBfnjf")
 
 def zdy():
     zdy_url=tkinter.simpledialog.askstring(title="请输入api地址",prompt = "地址")
@@ -58,14 +57,16 @@ def zdy():
     
 
 def ope_config():
-    os.system("config.yaml")
-
+    tip_config=tkinter.messagebox.askyesno("提示","非专业人士请勿修改，修改前请查看文档")
+    if tip_config==True:
+        os.system("config.yaml")
+    
 def jcgx():
     vertion=requests.get("https://tinywebdb.appinventor.space/api?user=haloged&secret=463de003&action=get&tag=bbh")
     vertion_jx=json.loads(vertion.text)
     bbh=vertion_jx["bbh"]
     print("当前最新版本："+bbh)
-    if bbh=="1.2.5":
+    if bbh=="1.3.0":
         tkinter.messagebox.showinfo("提示","无更新")
     else:
         tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
@@ -79,7 +80,7 @@ def ope():
     os.system("log.txt")
 
 def about():
-    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.2.5\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
+    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.3.0\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
 
 def run_1():
     yuan=var.get()
@@ -171,7 +172,7 @@ def auto_update():
         vertion_jx=json.loads(vertion.text)
         bbh=vertion_jx["bbh"]
         print("当前最新版本："+bbh)
-        if bbh=="1.2.5":
+        if bbh=="1.3.0":
             print("检查更新成功，目前无更新。")
         else:
             tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
@@ -181,7 +182,7 @@ def auto_update():
         print("用户已关闭自动更新") 
 
 root=tk.Tk()
-root.title("一言生成器v1.2.5 By Haloged")
+root.title("一言生成器v1.3.0 By Haloged")
 root.geometry("500x300")
 
 mainmenu = tk.Menu(root)
