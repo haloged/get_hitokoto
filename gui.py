@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.messagebox
 import tkinter.filedialog
 import tkinter.simpledialog
+import tkinter.ttk
 import time
 import json
 import openai
@@ -56,7 +57,7 @@ def zdy():
         tkinter.messagebox.showinfo("提示","抓取成功！")
     
 
-def ope_config():
+def ope_configfile():
     tip_config=tkinter.messagebox.askyesno("提示","非专业人士请勿修改，修改前请查看文档")
     if tip_config==True:
         os.system("config.yaml")
@@ -162,6 +163,45 @@ def run_1():
             f.write("\n\n")
         tkinter.messagebox.showinfo("提示","获取成功！")
 
+def save_config(status):
+    print(status)
+    if status=="开":
+        update_status=True
+    else:
+        update_status=False
+    Data={
+        "Automatically_check_for_updates": update_status
+    }
+    with open('./config.yaml', 'w', encoding='utf-8') as f:
+        yaml.dump(data=Data, stream=f, allow_unicode=True)
+    tkinter.messagebox.showinfo("提示","更改成功，重启软件后生效")
+
+def ope_config():
+    with open('./config.yaml', 'r', encoding='utf-8') as f:
+        result = yaml.load(f.read(), Loader=yaml.FullLoader)
+    update_status=result['Automatically_check_for_updates']
+    win_config = tk.Toplevel(root)
+    win_config.geometry('320x240')
+    win_config.title('配置')
+    config_logo=tk.Label(win_config,text="配置",font=("宋体",20))
+    config_logo.pack()
+    update_con=tk.Label(win_config,text="自动更新")
+    update_con.pack()
+    var = tk.StringVar()
+    combobox = tkinter.ttk.Combobox(win_config)
+    combobox.pack()
+    combobox['value'] =("开","关")
+    if update_status==True:
+        combobox.current(0)
+    else:
+        combobox.current(1)
+    
+    btsave=tk.Button(win_config,text='保存',command=lambda:save_config(combobox.get()))
+    btsave.pack()
+
+    btClose=tk.Button(win_config,text='关闭',command=win_config.destroy)
+    btClose.pack()
+
 def auto_update():
     with open('./config.yaml', 'r', encoding='utf-8') as f:
         result = yaml.load(f.read(), Loader=yaml.FullLoader)
@@ -188,7 +228,7 @@ root.geometry("500x300")
 mainmenu = tk.Menu(root)
 menuFile = tk.Menu(mainmenu)  # 菜单分组 menuFile
 mainmenu.add_cascade(label="文件",menu=menuFile)
-menuFile.add_command(label="打开配置文件",command=ope_config)
+menuFile.add_command(label="配置",command=ope_config)
 menuFile.add_command(label="打开一言保存文件",command=ope)
 menuFile.add_command(label="清空一言保存文件",command=clean_hitokoto)
 menuFile.add_command(label="自定义源",command=zdy)
