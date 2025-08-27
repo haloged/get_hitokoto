@@ -9,6 +9,7 @@ import json
 import openai
 import os
 import yaml
+from configparser import ConfigParser
 
 print('''
    __ __     __                 __
@@ -163,33 +164,44 @@ def run_1():
             f.write("\n\n")
         tkinter.messagebox.showinfo("提示","获取成功！")
 
-def change_language(language):
-    #即将开发
-    print("coding...")
 
-def save_config(status):
+def save_config(status,lnaguage_c):
     print(status)
     if status=="开":
         update_status=True
     else:
         update_status=False
+    if lnaguage_c=="chinese.ini":
+        language_st=0
+    else:
+        language_st=1
     Data={
-        "Automatically_check_for_updates": update_status
+        "Automatically_check_for_updates": update_status,
+        "language": language_st
     }
     with open('./config.yaml', 'w', encoding='utf-8') as f:
         yaml.dump(data=Data, stream=f, allow_unicode=True)
-    tkinter.messagebox.showinfo("提示","更改成功，重启软件后生效")
+    tip_close=tkinter.messagebox.askyesno("提示","更改成功，重启软件后生效\n点击“确定”立即关闭")
+    if tip_close==True:
+        root.destroy()
+    
 
 
 def read_language():
+    a=0
+    language_list=[]
     for item in os.listdir('./language'):
         print(item)
+        language_list.append(item)
+    return language_list
         
 
 def ope_config():
     with open('./config.yaml', 'r', encoding='utf-8') as f:
         result = yaml.load(f.read(), Loader=yaml.FullLoader)
     update_status=result['Automatically_check_for_updates']
+    language_status=result['language']
+
     win_config = tk.Toplevel(root)
     win_config.geometry('320x240')
     win_config.title('配置')
@@ -198,6 +210,7 @@ def ope_config():
     update_con=tk.Label(win_config,text="自动更新")
     update_con.pack()
     var = tk.StringVar()
+
     combobox = tkinter.ttk.Combobox(win_config)
     combobox.pack()
     combobox['value'] =("开","关")
@@ -206,7 +219,17 @@ def ope_config():
     else:
         combobox.current(1)
     
-    btsave=tk.Button(win_config,text='保存',command=lambda:save_config(combobox.get()))
+    language_con=tk.Label(win_config,text="语言")
+    language_con.pack()
+    combobox_language = tkinter.ttk.Combobox(win_config)
+    combobox_language.pack()
+    combobox_language['value'] =read_language()
+    if language_status==0:
+        combobox_language.current(0)
+    elif language_status==1:
+        combobox_language.current(1)
+    
+    btsave=tk.Button(win_config,text='保存',command=lambda:save_config(combobox.get(),combobox_language.get()))
     btsave.pack()
 
     btClose=tk.Button(win_config,text='关闭',command=win_config.destroy)
@@ -284,7 +307,18 @@ rd4.pack()
 rd5 = tk.Radiobutton(root,text="DeepSeek(需自行提供API KEY)",variable=var,value=4)
 rd5.pack()
 
-read_language()
+with open('./config.yaml', 'r', encoding='utf-8') as f:
+    result = yaml.load(f.read(), Loader=yaml.FullLoader)
+language_status_auto=result['language']
+if language_status_auto==1:
+    conf = ConfigParser()
+    conf.read('./language/english.ini')
+    logo.configure(text=conf['nr']['logo'])
+    run.configure(text=conf['nr']['run'])
+    xz.configure(text=conf['nr']['xz'])
+    
+
+
 auto_update()
 
 root.mainloop()
