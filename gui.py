@@ -163,6 +163,10 @@ def run_1():
             f.write("\n\n")
         tkinter.messagebox.showinfo("提示","获取成功！")
 
+def change_language(language):
+    #即将开发
+    print("coding...")
+
 def save_config(status):
     print(status)
     if status=="开":
@@ -175,6 +179,12 @@ def save_config(status):
     with open('./config.yaml', 'w', encoding='utf-8') as f:
         yaml.dump(data=Data, stream=f, allow_unicode=True)
     tkinter.messagebox.showinfo("提示","更改成功，重启软件后生效")
+
+
+def read_language():
+    for item in os.listdir('./language'):
+        print(item)
+        
 
 def ope_config():
     with open('./config.yaml', 'r', encoding='utf-8') as f:
@@ -274,6 +284,7 @@ rd4.pack()
 rd5 = tk.Radiobutton(root,text="DeepSeek(需自行提供API KEY)",variable=var,value=4)
 rd5.pack()
 
+read_language()
 auto_update()
 
 root.mainloop()
