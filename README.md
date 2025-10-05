@@ -4,6 +4,8 @@
 
 请点击[此处](https://github.com/haloged/get_hitokoto/releases)下载一言生成器
 
+PyQt版本(实验性)：[Get-Hitokoto-For-PyQt](https://github.com/haloged/Get-Hitokoto-For-PyQt)
+
 **温馨提示：本工具免编译版本仅支持Windows系统。**
 
 # 安装教程
