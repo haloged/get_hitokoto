@@ -4,6 +4,8 @@
 
 Please click [here](https://github.com/haloged/get_hitokoto/releases) to download the One Sentence Generator. 
 
+PyQt version (experimental):[Get-Hitokoto-For-PyQt](https://github.com/haloged/Get-Hitokoto-For-PyQt)
+
 **Warm Tip: This tool's non-compilation version only supports the Windows system.**
 
 
