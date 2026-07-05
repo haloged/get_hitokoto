@@ -10,12 +10,14 @@ import openai
 import os
 import yaml
 from configparser import ConfigParser
+import sys
+import subprocess
 
 print('''
    __ __     __                 __
   / // /__ _/ /__  ___ ____ ___/ /
  / _  / _ `/ / _ \/ _ `/ -_) _  / 
-/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.3.0
+/_//_/\_,_/_/\___/\_, /\__/\_,_/  v1.3.1
                  /___/            
 ''')
 
@@ -68,7 +70,7 @@ def jcgx():
     vertion_jx=json.loads(vertion.text)
     bbh=vertion_jx["bbh"]
     print("当前最新版本："+bbh)
-    if bbh=="1.3.0":
+    if bbh=="1.3.1":
         tkinter.messagebox.showinfo("提示","无更新")
     else:
         tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
@@ -82,7 +84,7 @@ def ope():
     os.system("log.txt")
 
 def about():
-    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.3.0\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
+    tkinter.messagebox.showinfo("关于软件","作者：haloged\n软件版本：1.3.1\n作者B站：https://space.bilibili.com/518055250\nGithub仓库：https://github.com/haloged/get_hitokoto")
 
 def run_1():
     yuan=var.get()
@@ -164,6 +166,20 @@ def run_1():
             f.write("\n\n")
         tkinter.messagebox.showinfo("提示","获取成功！")
 
+def restart_program():
+    # 判断是否是打包后的 exe 环境
+    if getattr(sys, 'frozen', False):
+        # 如果是打包后的 exe，直接重启自身
+        executable = sys.executable
+        subprocess.Popen([executable])
+    else:
+        # 如果是直接运行 .py 脚本
+        executable = sys.executable
+        script = sys.argv[0]
+        subprocess.Popen([executable, script])
+        
+    root.destroy()
+    sys.exit(0)
 
 def save_config(status,lnaguage_c):
     print(status)
@@ -181,9 +197,9 @@ def save_config(status,lnaguage_c):
     }
     with open('./config.yaml', 'w', encoding='utf-8') as f:
         yaml.dump(data=Data, stream=f, allow_unicode=True)
-    tip_close=tkinter.messagebox.askyesno("提示","更改成功，重启软件后生效\n点击“确定”立即关闭")
+    tip_close=tkinter.messagebox.askyesno("提示","更改成功，重启软件后生效\n点击“确定”立即重启")
     if tip_close==True:
-        root.destroy()
+        restart_program()
     
 
 
@@ -245,7 +261,7 @@ def auto_update():
         vertion_jx=json.loads(vertion.text)
         bbh=vertion_jx["bbh"]
         print("当前最新版本："+bbh)
-        if bbh=="1.3.0":
+        if bbh=="1.3.1":
             print("检查更新成功，目前无更新。")
         else:
             tip_vertion=tkinter.messagebox.askyesno("提示","有新版本！\n点击“确定”转到仓库")
@@ -254,27 +270,54 @@ def auto_update():
     else:
         print("用户已关闭自动更新") 
 
-root=tk.Tk()
-root.title("一言生成器v1.3.0 By Haloged")
-root.geometry("500x300")
+with open('./config.yaml', 'r', encoding='utf-8') as f:
+    result = yaml.load(f.read(), Loader=yaml.FullLoader)
+language_status_auto=result['language']
+if language_status_auto==0:
+    root=tk.Tk()
+    root.title("一言生成器v1.3.1 By Haloged")
+    root.geometry("500x300")
 
-mainmenu = tk.Menu(root)
-menuFile = tk.Menu(mainmenu)  # 菜单分组 menuFile
-mainmenu.add_cascade(label="文件",menu=menuFile)
-menuFile.add_command(label="配置",command=ope_config)
-menuFile.add_command(label="打开一言保存文件",command=ope)
-menuFile.add_command(label="清空一言保存文件",command=clean_hitokoto)
-menuFile.add_command(label="自定义源",command=zdy)
-menuFile.add_separator()  # 分割线
-menuFile.add_command(label="退出",command=root.destroy)
+    mainmenu = tk.Menu(root)
+    menuFile = tk.Menu(mainmenu)  # 菜单分组 menuFile
+    mainmenu.add_cascade(label="文件",menu=menuFile)
+    menuFile.add_command(label="配置",command=ope_config)
+    menuFile.add_command(label="打开一言保存文件",command=ope)
+    menuFile.add_command(label="清空一言保存文件",command=clean_hitokoto)
+    menuFile.add_command(label="自定义源",command=zdy)
+    menuFile.add_separator()  # 分割线
+    menuFile.add_command(label="退出",command=root.destroy)
 
-menuEdit = tk.Menu(mainmenu)  # 菜单分组 menuEdit
-mainmenu.add_cascade(label="更多",menu=menuEdit)
-menuEdit.add_command(label="帮助文档",command=ope_help_doc)
-menuEdit.add_command(label="Github仓库",command=ope_github)
-menuEdit.add_command(label="检查更新",command=jcgx)
-menuEdit.add_command(label="关于",command=about)
-root.config(menu=mainmenu)
+    menuEdit = tk.Menu(mainmenu)  # 菜单分组 menuEdit
+    mainmenu.add_cascade(label="更多",menu=menuEdit)
+    menuEdit.add_command(label="帮助文档",command=ope_help_doc)
+    menuEdit.add_command(label="Github仓库",command=ope_github)
+    menuEdit.add_command(label="检查更新",command=jcgx)
+    menuEdit.add_command(label="关于",command=about)
+    root.config(menu=mainmenu)
+
+else:
+    root=tk.Tk()
+    root.title("Hitokoto Generator v1.3.1 By Haloged")
+    root.geometry("500x300")
+
+    mainmenu = tk.Menu(root)
+    menuFile = tk.Menu(mainmenu)  # 菜单分组 menuFile
+    mainmenu.add_cascade(label="File",menu=menuFile)
+    menuFile.add_command(label="Config",command=ope_config)
+    menuFile.add_command(label="Open the data file",command=ope)
+    menuFile.add_command(label="Clear data files",command=clean_hitokoto)
+    menuFile.add_command(label="Custom source",command=zdy)
+    menuFile.add_separator()  # 分割线
+    menuFile.add_command(label="Exit",command=root.destroy)
+
+    menuEdit = tk.Menu(mainmenu)  # 菜单分组 menuEdit
+    mainmenu.add_cascade(label="More",menu=menuEdit)
+    menuEdit.add_command(label="Help Documentation",command=ope_help_doc)
+    menuEdit.add_command(label="GitHub repo",command=ope_github)
+    menuEdit.add_command(label="Check for updates",command=jcgx)
+    menuEdit.add_command(label="About",command=about)
+    root.config(menu=mainmenu)
 
 logo=tk.Label(root,text="一言生成器",font=("宋体",20))
 logo.pack()
@@ -311,6 +354,7 @@ with open('./config.yaml', 'r', encoding='utf-8') as f:
     result = yaml.load(f.read(), Loader=yaml.FullLoader)
 language_status_auto=result['language']
 if language_status_auto==1:
+    lang="eng"
     conf = ConfigParser()
     conf.read('./language/english.ini')
     logo.configure(text=conf['nr']['logo'])
