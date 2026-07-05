@@ -12,6 +12,19 @@ import yaml
 from configparser import ConfigParser
 import sys
 import subprocess
+import certifi
+
+if getattr(sys, 'frozen', False):
+    # 打包后的环境
+    base_path = sys._MEIPASS
+    certifi_path = os.path.join(base_path, 'certifi', 'cacert.pem')
+    if os.path.exists(certifi_path):
+        os.environ['SSL_CERT_FILE'] = certifi_path
+        os.environ['REQUESTS_CA_BUNDLE'] = certifi_path
+else:
+    # 开发环境
+    os.environ['SSL_CERT_FILE'] = certifi.where()
+    os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
 print('''
    __ __     __                 __
@@ -167,9 +180,12 @@ def run_1():
         tkinter.messagebox.showinfo("提示","获取成功！")
 
 def restart_program():
-    # 判断是否是打包后的 exe 环境
+    os.environ.pop('REQUESTS_CA_BUNDLE', None)
+    os.environ.pop('SSL_CERT_FILE', None)
+
+    # 启动新进程
     if getattr(sys, 'frozen', False):
-        # 如果是打包后的 exe，直接重启自身
+        # 如果是打包后的 exe
         executable = sys.executable
         subprocess.Popen([executable])
     else:
@@ -178,6 +194,7 @@ def restart_program():
         script = sys.argv[0]
         subprocess.Popen([executable, script])
         
+    # 关闭当前窗口并退出
     root.destroy()
     sys.exit(0)
 
