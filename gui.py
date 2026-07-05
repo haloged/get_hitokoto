@@ -1,3 +1,37 @@
+import sys
+import os
+import shutil
+def setup_certificates():
+    if getattr(sys, 'frozen', False):
+        # 打包后的环境
+        base_path = sys._MEIPASS
+        # 源文件：PyInstaller 解压出来的证书路径
+        src_cert = os.path.join(base_path, 'certifi', 'cacert.pem')
+        
+        # 目标路径：系统的 TEMP 目录下的固定文件夹（安全区，不会被 PyInstaller 删除）
+        temp_dir = os.environ.get('TEMP', os.environ.get('TMP', '.'))
+        dest_dir = os.path.join(temp_dir, 'myapp_secure_certs')
+        os.makedirs(dest_dir, exist_ok=True)
+        dest_cert = os.path.join(dest_dir, 'cacert.pem')
+        
+        # 如果目标文件不存在，则复制过去
+        if not os.path.exists(dest_cert):
+            try:
+                shutil.copy2(src_cert, dest_cert)
+            except Exception as e:
+                print(f"复制证书失败: {e}")
+        
+        # 强制指定环境变量指向安全区
+        os.environ['SSL_CERT_FILE'] = dest_cert
+        os.environ['REQUESTS_CA_BUNDLE'] = dest_cert
+    else:
+        # 开发环境
+        cert_path = certifi.where()
+        os.environ['SSL_CERT_FILE'] = cert_path
+        os.environ['REQUESTS_CA_BUNDLE'] = cert_path
+
+# 立即执行证书配置
+setup_certificates()
 import requests
 import tkinter as tk
 import tkinter.messagebox
@@ -7,24 +41,10 @@ import tkinter.ttk
 import time
 import json
 import openai
-import os
 import yaml
 from configparser import ConfigParser
-import sys
 import subprocess
 import certifi
-
-if getattr(sys, 'frozen', False):
-    # 打包后的环境
-    base_path = sys._MEIPASS
-    certifi_path = os.path.join(base_path, 'certifi', 'cacert.pem')
-    if os.path.exists(certifi_path):
-        os.environ['SSL_CERT_FILE'] = certifi_path
-        os.environ['REQUESTS_CA_BUNDLE'] = certifi_path
-else:
-    # 开发环境
-    os.environ['SSL_CERT_FILE'] = certifi.where()
-    os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
 print('''
    __ __     __                 __
@@ -180,9 +200,6 @@ def run_1():
         tkinter.messagebox.showinfo("提示","获取成功！")
 
 def restart_program():
-    os.environ.pop('REQUESTS_CA_BUNDLE', None)
-    os.environ.pop('SSL_CERT_FILE', None)
-
     # 启动新进程
     if getattr(sys, 'frozen', False):
         # 如果是打包后的 exe
